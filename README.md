@@ -28,3 +28,10 @@ This library keeps every intermediate value in floating point and only rounds wh
 Hex parsing accepts exactly six hexadecimal digits, with or without a leading `#`. It does not accept three-digit shorthand (`#abc`), nor does it accept alpha (`#rrggbbaa`). Passing anything else throws an `Error`. If you need shorthand or alpha, expand or strip it before calling `hexToRgb`.
 
 RGB channels are clamped to `[0, 255]`; HSL hue wraps modulo 360, and saturation and lightness are clamped to `[0, 100]`.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
